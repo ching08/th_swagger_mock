@@ -1,0 +1,199 @@
+swagger: '2.0'
+info:
+  description: Databases
+  version: 1.0.0
+  title: Databases
+  contact:
+    email: nancy.feng@thalesesec.net
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+basePath: /v1
+tags:
+  - name: databases
+    description: Get databases info
+schemes:
+  - http
+  - https
+paths:
+  /status:
+    get:
+      x-swagger-router-controller: app
+      operationId: getStatus
+      description: get the status of the service
+      tags:
+        - status
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: return version
+          schema:
+            type: object
+            properties:
+              version:
+                description: version string
+                type: string
+          examples:
+            application/json:
+              version: 0.0.0-0
+        '500':
+          description: generic error
+          schema:
+            $ref: '#/definitions/error'
+  /databases:
+    get:
+      x-swagger-router-controller: app
+      operationId: get_databases
+      tags:
+        - databases
+      summary: Get a list of all databases and some detailes
+      description: ''
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Get all the databases
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/databases'
+          examples:
+            application/json:
+              - DbiResourceId: db-1
+                DBInstanceIdentifier: skynet-demo1
+                StorageEncrypted: true
+                KmsKeyI: >-
+                  arn:aws:kms:us-east-1:805182230944:key/40b72fac-64e9-4225-b75f-89698ce400a6
+                VpcSecurityGroupId: g-6a674f19
+              - DbiResourceId: db-2
+                DBInstanceIdentifier: skynet-demo2
+                StorageEncrypted: true
+                KmsKeyI: >-
+                  arn:aws:kms:us-east-1:805182230944:key/40b72fac-64e9-4225-b75f-89698ce400a6
+                VpcSecurityGroupId: g-6a674f192
+        '500':
+          description: Server error
+          schema:
+            $ref: '#/definitions/error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/error'
+  '/databases/{id}':
+    get:
+      tags:
+        - databases_id
+      x-swagger-router-controller: app
+      operationId: get_database_id
+      description: Returns a database based on DBInstanceIdentifier
+      parameters:
+        - name: id
+          in: path
+          description: DBInstanceIdentifier
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: database response
+          schema:
+            $ref: '#/definitions/databases'
+          examples:
+            application/json:
+              DbiResourceId: db-3
+              DBInstanceIdentifier: skynet-demo3
+              StorageEncrypted: true
+              KmsKeyI: >-
+                arn:aws:kms:us-east-1:805182230944:key/40b72fac-64e9-4225-b75f-89698ce400a6
+              VpcSecurityGroupId: g-6a674f19
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/error'
+    put:
+      tags:
+        - databases_id
+      x-swagger-router-controller: app
+      operationId: put_database_id
+      description: add a database
+      parameters:
+        - name: id
+          in: path
+          description: ID of database to delete
+          required: true
+          type: string
+        - name: database
+          in: body
+          schema:
+            $ref: '#/definitions/databases'
+      responses:
+        '200':
+          description: database updated
+        '201':
+          description: database created
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/error'
+    delete:
+      tags:
+        - databases_id
+      x-swagger-router-controller: app
+      operationId: delete_database_id
+      description: delete a database
+      parameters:
+        - name: id
+          in: path
+          description: ID of database to delete
+          required: true
+          type: string
+      responses:
+        '204':
+          description: database deleted
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/error'
+definitions:
+  databases:
+    type: object
+    required:
+      - DbiResourceId
+      - StorageEncrypted
+      - VpcSecurityGroupId
+    properties:
+      DbiResourceId:
+        type: string
+        description: >-
+          The region-unique, immutable identifier for the DB instance. This
+          identifier is found in AWS CloudTrail log entries whenever the KMS key
+          for the DB instance is accessed.
+      DBInstanceIdentifier:
+        type: string
+        description: The user-supplied instance identifier.
+      StorageEncrypted:
+        type: boolean
+        description: 'True means database is encrypted, false otherwise.'
+      KmsKeyId:
+        type: string
+        description: KMS key identifier for the encrypted DB instance.
+      VpcSecurityGroupId:
+        type: string
+        description: the first VPC security group id the database belongs to.
+  error:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Error id
+      message:
+        type: string
+        description: Details message about the error.
+    required:
+      - id
+      - message
+    example:
+      id: 500
+      message: Server Internal Error

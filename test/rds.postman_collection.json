@@ -1,0 +1,128 @@
+{
+	"id": "f7014d5e-43d2-e8f6-2f12-66b629ae8bcf",
+	"name": "rds",
+	"description": "",
+	"order": [
+		"25a58b64-4c6c-8e03-3878-191101c9912d",
+		"1c34a174-5220-94d0-1655-07de86823f52",
+		"e5759102-f039-88f3-4ae0-6558e223b662",
+		"cca12dca-1af2-8219-ae10-8a0b7a228deb"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 0,
+	"owner": "3259137",
+	"public": false,
+	"requests": [
+		{
+			"id": "1c34a174-5220-94d0-1655-07de86823f52",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}/v1/databases/1",
+			"folder": null,
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1512533876255,
+			"name": "get v1/databases/1",
+			"description": null,
+			"collectionId": "f7014d5e-43d2-e8f6-2f12-66b629ae8bcf",
+			"responses": []
+		},
+		{
+			"id": "25a58b64-4c6c-8e03-3878-191101c9912d",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}/v1/databases/1",
+			"folder": null,
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "tests[\"get v1/database\"] = responseCode.code === 200  || responseCode.code === 201  ;\n\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1512534796629,
+			"name": "put v1/databases/1",
+			"description": "",
+			"collectionId": "f7014d5e-43d2-e8f6-2f12-66b629ae8bcf",
+			"responses": [],
+			"rawModeData": "{\r\n  \"DBInstanceIdentifier\": \"skynet-demo1\",\r\n  \"DbiResourceId\": \"db-1\",\r\n  \"KmsKeyI\": \"arn:aws:kms:us-east-1:805182230944:key/40b72fac-64e9-4225-b75f-89698ce400a6\",\r\n  \"StorageEncrypted\": true,\r\n  \"VpcSecurityGroupId\": \"g-6a674f19\"\r\n}"
+		},
+		{
+			"id": "cca12dca-1af2-8219-ae10-8a0b7a228deb",
+			"headers": "",
+			"headerData": [],
+			"url": "http://{{host}}/v1/databases/1",
+			"folder": null,
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"tests": "tests[\"Status code is 204\"] = responseCode.code === 204;\n\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1512533865494,
+			"name": "delete /v1/databases/annie",
+			"description": null,
+			"collectionId": "f7014d5e-43d2-e8f6-2f12-66b629ae8bcf",
+			"responses": []
+		},
+		{
+			"id": "e5759102-f039-88f3-4ae0-6558e223b662",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}/v1/databases",
+			"folder": null,
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "tests[\"get v1/database\"] = responseCode.code === 200;\n\ntests[\"Body matches string\"] = responseBody.has(\"DBInstanceIdentifier\");\n\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1512533872393,
+			"name": "get v1/databases",
+			"description": null,
+			"collectionId": "f7014d5e-43d2-e8f6-2f12-66b629ae8bcf",
+			"responses": []
+		}
+	]
+}
